@@ -1,4 +1,5 @@
 ﻿using IdentificationPhishingEmails.Data;
+using IdentificationPhishingEmails.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,18 @@ namespace IdentificationPhishingEmails.Features.Commands.UpdateEmail
             _dataContext = dataContext;
         }
 
-        public Task<Unit> Handle(UpdateEmailCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateEmailCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var isEmailInDb = await _dataContext.Emails.FirstOrDefaultAsync(e => e.Id == request.Id, cancellationToken);
+            if (isEmailInDb is null)
+            {
+                throw new Exception($"Email with id: {request.Id}  does not exists!");
+            }
+
+            isEmailInDb.Content = request.Email.Content; 
+
+            _dataContext.Emails.Update(isEmailInDb);
+            await _dataContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
