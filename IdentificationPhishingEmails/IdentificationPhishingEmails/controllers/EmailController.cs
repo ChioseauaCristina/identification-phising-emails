@@ -38,11 +38,19 @@ namespace IdentificationPhishingEmails.Controllers
             return Ok(response);
         }
 
-        [HttpPost("/addEmail")]
-        [ProducesResponseType(typeof(Email), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult> AddEmail([FromBody] AddEmailDto newEmail)
+        [HttpPost("/addEmailsSimplified")]
+        [ProducesResponseType(typeof(List<Email>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> AddEmailsSimplified([FromBody] List<AddEmailDto> newEmails)
         {
-            var response = await _mediator.Send(new AddEmailCommand() { NewEmail = newEmail });
+            var response = await _mediator.Send(new AddEmailsSimplifiedCommand() { NewEmails = newEmails });
+            return Ok(response);
+        }
+
+        [HttpPost("/addEmails")]
+        [ProducesResponseType(typeof(List<Email>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult> AddEmails([FromBody] List<AddEmailDto> newEmails)
+        {
+            var response = await _mediator.Send(new AddEmailsCommand() { NewEmails = newEmails });
             return Ok(response);
         }
 

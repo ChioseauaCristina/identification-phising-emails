@@ -1,11 +1,12 @@
 ﻿using IdentificationPhishingEmails.Features.Dtos;
 using IdentificationPhishingEmails.Models;
 using MediatR;
+using System.Collections.Generic;
 
 namespace IdentificationPhishingEmails.Features.Commands.AddEmail
 {
-    public class AddEmailCommand : IRequest<Email>
+    public class AddEmailsCommand : IRequest<List<Email>>
     {
-        public AddEmailDto NewEmail { get; set; }
+        public List<AddEmailDto> NewEmails { get; set; }
     }
 }
